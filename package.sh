@@ -5,7 +5,7 @@ GRUB_DIR="grub"
 ISO_DIR="public"
 GRUB_CFG="$GRUB_DIR/grub.cfg"
 
-make
+make -B # Make sure to remake
 
 if [ ! -f "$KERNEL_FILE" ]; then
     echo "Error: Kernel file '$KERNEL_FILE' not found."

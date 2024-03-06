@@ -1,4 +1,5 @@
 #include "serial.h"
+#define UNUSED 0x80
 
 void iowait() {
     outb8(UNUSED, 0);

@@ -4,7 +4,6 @@
 #include <stdint.h>
 
 #define QEMU_SERIAL_PORT 0x3f8
-#define UNUSED 0x80
 
 void outb8(uint16_t port, uint8_t value);
 void outb16(uint16_t port, uint16_t value);
