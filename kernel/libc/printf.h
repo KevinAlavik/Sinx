@@ -36,7 +36,6 @@
 #include <stdarg.h>
 #include <stddef.h>
 
-#include "../display/terminal.h"
 #include "../serial/serial.h"
 
 

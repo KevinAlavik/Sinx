@@ -1,6 +1,7 @@
 .set ALIGN,    1<<0
 .set MEMINFO,  1<<1
-.set FLAGS,    ALIGN | MEMINFO
+.set GRAPHICS, 1<<2
+.set FLAGS,    ALIGN | MEMINFO | GRAPHICS
 .set MAGIC,    0x1BADB002
 .set CHECKSUM, -(MAGIC + FLAGS)
 
@@ -21,7 +22,7 @@ stack_top:
 .type _start, @function
 _start:
 	mov $stack_top, %esp
-	call kernel_main
+	call main
 	cli
 1:	hlt
 	jmp 1b

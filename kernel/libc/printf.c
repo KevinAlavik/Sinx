@@ -153,9 +153,9 @@ static inline void _out_null(char character, void *buffer, size_t idx,
 }
 
 // internal _putchar wrapper
-static inline void _out_char(char character, UNUSED void *buffer,
+static inline void _out_char(UNUSED char character, UNUSED void *buffer,
                              UNUSED size_t idx, UNUSED size_t maxlen) {
-    terminal_putchar(character);
+    // This is not impelemented yet
 }
 
 // internal output function wrapper

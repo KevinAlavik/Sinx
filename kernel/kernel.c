@@ -4,11 +4,8 @@
 #include <string.h>
 
 #include "serial/serial.h"
-#include "display/vga.h"
-#include "display/terminal.h"
 
-void kernel_main(void)
+void main(void)
 {
-	terminal_initialize();
-    printf("Hello, World!");
+	dprintf("Hello from Sinx v0.0.1\n");
 }
