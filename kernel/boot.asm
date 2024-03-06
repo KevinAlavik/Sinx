@@ -13,10 +13,10 @@
 section .multiboot
     align 4
 header_start:
-    dd MAGIC
-    dd FLAGS
-    dd CHECKSUM
-    dd 0, 0, 0, 0, 0
+    dd MAGIC            ; Multiboot 1 magic
+    dd FLAGS            ; Multiboot flags
+    dd CHECKSUM         ; Multiboot checksum
+    dd 0, 0, 0, 0, 0    ; Unused header data
     dd GMODE
     dd GWIDTH
     dd GHEIGHT
