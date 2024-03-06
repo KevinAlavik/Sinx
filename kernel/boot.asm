@@ -5,10 +5,10 @@
 %define MAGIC       0x1BADB002
 %define CHECKSUM    -(MAGIC + FLAGS)
 
-%define GMODE       0
-%define GWIDTH      0
-%define GHEIGHT     0
-%define GDEPTH      0
+%define GMODE       0   ; Graphics mode. 0 = graphics, 1 = text
+%define GWIDTH      0   ; Width. 0 for default
+%define GHEIGHT     0   ; Height. 0 for default
+%define GDEPTH      0   ; Depth. 0 for default
 
 section .multiboot
     align 4
