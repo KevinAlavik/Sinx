@@ -26,4 +26,4 @@ grub-mkrescue -o Sinx.iso "$ISO_DIR"
 
 rm -rf "$ISO_DIR"
 
-echo "Sinx ISO created: Sinx.iso"
+echo "Sinx ISO created"
