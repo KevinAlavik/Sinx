@@ -8,4 +8,5 @@
 void main(void)
 {
 	dprintf("Hello from Sinx v0.0.1\n");
+	dprintf("Hello graphics!\n");
 }

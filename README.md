@@ -12,7 +12,7 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
 1. Clone the repository:
 
     ```
-    git clone https://github.com/your_username/Sinx.git
+    git clone https://github.com/KevinAlavik/Sinx.git
     cd Sinx
     ```
 
