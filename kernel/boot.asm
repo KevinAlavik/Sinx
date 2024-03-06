@@ -3,7 +3,7 @@
 .set GRAPHICS, 1<<2
 .set FLAGS,    ALIGN | MEMINFO | GRAPHICS
 .set MAGIC,    0x1BADB002
-.set CHECKSUM, -(MAGIC + FLAGS)
+.set CHECKSUM, - (MAGIC + FLAGS)
 
 .set GMODE, 0
 .set GWIDTH, 0
@@ -15,6 +15,7 @@
 .long MAGIC
 .long FLAGS
 .long CHECKSUM
+.long 0,0,0,0,0
 .long GMODE
 .long GWIDTH
 .long GHEIGHT
@@ -30,10 +31,10 @@ stack_top:
 .global _start
 .type _start, @function
 _start:
-	mov $stack_top, %esp
-	call main
-	cli
-1:	hlt
-	jmp 1b
+    mov $stack_top, %esp
+    call main
+    cli
+1:    hlt
+    jmp 1b
 
 .size _start, . - _start
