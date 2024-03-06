@@ -47,6 +47,8 @@ void terminal_putchar(char c) {
             }
         }
     }
+
+    move_cursor(terminal_column - 1, terminal_row); // Move cursor based on x, y
 }
 
 
@@ -78,4 +80,12 @@ void disable_cursor()
 {
     outb8(0x3D4, 0x0A);
     outb8(0x3D5, 0x20);
+}
+
+void move_cursor(uint8_t x, uint8_t y) {
+    uint16_t pos = y * VGA_WIDTH + x;
+    outb8(0x3D4, 0x0F);
+    outb8(0x3D5, (uint8_t)(pos & 0xFF));
+    outb8(0x3D4, 0x0E);
+    outb8(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }

@@ -14,5 +14,6 @@ void terminal_set_char_bg(uint8_t bg_color);
 void terminal_set_char_fg(uint8_t fg_color);
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 void disable_cursor();
+void move_cursor(uint8_t x, uint8_t y);
 
 #endif // __TERMINAL_H__
