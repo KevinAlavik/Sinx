@@ -3,8 +3,8 @@ BIN_DIR := bin
 KERNEL_DIR := kernel
 BOOT_PATH := $(KERNEL_DIR)/boot.asm
 
-AS := i686-elf-as
-AS_FLAGS :=
+AS := nasm
+AS_FLAGS := -f elf32
 
 CC := i686-elf-gcc
 CC_FLAGS := -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(KERNEL_DIR)/libc
