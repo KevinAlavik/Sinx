@@ -3,10 +3,13 @@
 #include <printf.h>
 #include <string.h>
 
+#include "multiboot/multiboot.h"
+
 #include "serial/serial.h"
 
-void main(void)
+void main(struct multiboot_info* mb_info)
 {
 	dprintf("Hello from Sinx v0.0.1\n");
-	dprintf("Hello graphics!\n");
+	dprintf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
+	dprintf("%ux%u\n", mb_info->framebuffer_width, mb_info->framebuffer_height);
 }
