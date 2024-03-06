@@ -5,11 +5,20 @@
 .set MAGIC,    0x1BADB002
 .set CHECKSUM, -(MAGIC + FLAGS)
 
+.set GMODE, 0
+.set GWIDTH, 0
+.set GHEIGHT, 0
+.set GDEPTH, 0
+
 .section .multiboot
 .align 4
 .long MAGIC
 .long FLAGS
 .long CHECKSUM
+.long GMODE
+.long GWIDTH
+.long GHEIGHT
+.long GDEPTH
 
 .section .bss
 .align 16
