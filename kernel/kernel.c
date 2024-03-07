@@ -33,7 +33,6 @@ void kernel_entry(struct multiboot_info* mb_info)
     gdt_init();
     dprintf("Initialized GDT\n");
 
-    init_idt();
 
     int n = nighterm_initialize(NULL, fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
 
@@ -47,6 +46,4 @@ void kernel_entry(struct multiboot_info* mb_info)
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
     printf("%s\n", __FILE__);
     printf("(Check serial for startup log)\n");
-
-    int a = 0 / 0;
 }

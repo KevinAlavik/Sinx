@@ -14,7 +14,7 @@ _int_stub:
     cld
     call excp_handler
     popad
-    add esp, 32
+    add esp, 16
     iretd
 
 %macro _isr_noerr 1
