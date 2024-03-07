@@ -12,6 +12,7 @@
 
 // System Imports
 #include "system/gdt/gdt.h"
+#include "system/idt/idt.h"
 
 // Display Imports
 #include "drivers/display/framebuffer.h"
@@ -31,6 +32,9 @@ void kernel_entry(struct multiboot_info* mb_info)
 
     gdt_init();
     dprintf("Initialized GDT\n");
+
+    idt_init();
+    dprintf("Initialized IDT\n");
 
     int n = nighterm_initialize(NULL, fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
 
