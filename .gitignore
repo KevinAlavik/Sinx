@@ -54,5 +54,4 @@ dkms.conf
 bin/*
 build/*
 *.img
-
-
+core

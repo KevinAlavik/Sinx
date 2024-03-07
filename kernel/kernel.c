@@ -45,4 +45,6 @@ void kernel_entry(struct multiboot_info* mb_info)
     printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
     printf("Hello from %s\n", __FILE__);
+
+    init_idt();
 }
