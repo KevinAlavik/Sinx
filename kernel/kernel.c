@@ -11,7 +11,8 @@
 #include "multiboot/multiboot.h"
 
 // System Imports
-#include "system/gdt.h"
+#include "system/gdt/gdt.h"
+#include "system/idt/idt.h"
 
 // Display Imports
 #include "drivers/display/framebuffer.h"
@@ -32,6 +33,8 @@ void kernel_entry(struct multiboot_info* mb_info)
     gdt_init();
     dprintf("Initialized GDT\n");
 
+    init_idt();
+
     int n = nighterm_initialize(NULL, fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
 
     if(n != NIGHTERM_SUCCESS) {
@@ -42,5 +45,8 @@ void kernel_entry(struct multiboot_info* mb_info)
     printf("Hello from Sinx v0.0.1\n");
     printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
+    printf("%s\n", __FILE__);
     printf("(Check serial for startup log)\n");
+
+    int a = 0 / 0;
 }
