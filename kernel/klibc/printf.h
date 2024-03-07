@@ -37,6 +37,7 @@
 #include <stddef.h>
 
 #include "../drivers/serial/serial.h"
+#include "../drivers/display/nighterm/nighterm.h"
 
 
 #ifdef __cplusplus

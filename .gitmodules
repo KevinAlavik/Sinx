@@ -1,0 +1,3 @@
+[submodule "kernel/drivers/display/nighterm"]
+	path = kernel/drivers/display/nighterm
+	url = https://github.com/schkwve/nighterm-extended

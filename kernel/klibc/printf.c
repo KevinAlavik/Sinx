@@ -139,8 +139,7 @@ static inline void _out_dbg(char character, UNUSED void *buffer,
     if (character == 0)
         return;
     outb8(QEMU_SERIAL_PORT,
-          character); // port E9 trick, only works on bochs and qemu, doesnt
-                      // break real hardware( unless the hardware is garbage)
+          character);
 }
 
 // internal null output
@@ -153,9 +152,9 @@ static inline void _out_null(char character, void *buffer, size_t idx,
 }
 
 // internal _putchar wrapper
-static inline void _out_char(UNUSED char character, UNUSED void *buffer,
+static inline void _out_char(char character, UNUSED void *buffer,
                              UNUSED size_t idx, UNUSED size_t maxlen) {
-    // This is not impelemented yet
+    nighterm_write(character);
 }
 
 // internal output function wrapper
