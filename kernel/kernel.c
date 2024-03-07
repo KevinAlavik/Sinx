@@ -21,7 +21,7 @@
 void kernel_entry(struct multiboot_info* mb_info)
 {
     dprintf("\033c");
-    dprintf("Hello from Sinx v0.0.1\n");
+    printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
     dprintf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
     framebuffer_t* fb = framebuffer_initialize(mb_info);
     dprintf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
@@ -41,5 +41,5 @@ void kernel_entry(struct multiboot_info* mb_info)
 
     printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
     printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
-    printf("Screen Dimensions: %ux%u\n", fb->width, fb->height);
+    printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
 }
