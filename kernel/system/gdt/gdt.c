@@ -4,7 +4,8 @@
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t gdt_ptr;
 
-void init_gdt() {
+void init_gdt()
+{
     gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
     gdt_ptr.base = (uint32_t)&gdt_entries;
 
@@ -17,7 +18,8 @@ void init_gdt() {
     gdt_flush((uint32_t)&gdt_ptr);
 }
 
-static void gdt_set_gate(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran) {
+void gdt_set_gate(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+{
     gdt_entries[num].base_low = base & 0xFFFF;
     gdt_entries[num].base_middle = (base >> 16) & 0xFF;
     gdt_entries[num].base_high = (base >> 24) & 0xFF;
@@ -29,11 +31,11 @@ static void gdt_set_gate(int num, uint32_t base, uint32_t limit, uint8_t access,
     gdt_entries[num].access = access;
 }
 
-void gdt_flush(uint32_t gdt_ptr_address) {
-    asm volatile (
+void gdt_flush(uint32_t gdt_ptr_address)
+{
+    asm volatile(
         "lgdt (%0)"
         :
         : "r"(gdt_ptr_address)
-        : "memory"
-    );
+        : "memory");
 }

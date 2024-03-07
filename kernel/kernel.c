@@ -19,12 +19,12 @@
 #include "drivers/display/vga.h"
 #include "drivers/display/nighterm/nighterm.h"
 
-void kernel_entry(struct multiboot_info* mb_info)
+void kernel_entry(struct multiboot_info *mb_info)
 {
     dprintf("\033c");
     printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
-    dprintf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
-    framebuffer_t* fb = framebuffer_initialize(mb_info);
+    dprintf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
+    framebuffer_t *fb = framebuffer_initialize(mb_info);
     dprintf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
 
     vga_initialize(fb);
@@ -38,13 +38,14 @@ void kernel_entry(struct multiboot_info* mb_info)
 
     int n = nighterm_initialize(NULL, fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
 
-    if(n != NIGHTERM_SUCCESS) {
+    if (n != NIGHTERM_SUCCESS)
+    {
         dprintf("Failed to initialize tty.");
         return;
     }
 
     printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
-    printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
+    printf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
-    asm("int $0");
+    asm("int $0x69");
 }
