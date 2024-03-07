@@ -11,8 +11,9 @@
 #include "multiboot/multiboot.h"
 
 // System Imports
-#include "system/gdt/gdt.h"
-#include "system/idt/idt.h"
+#include "arch/gdt/gdt.h"
+#include "arch/idt/idt.h"
+#include "arch/pic/pic.h"
 
 // Display Imports
 #include "drivers/display/framebuffer.h"
@@ -47,5 +48,4 @@ void kernel_entry(struct multiboot_info *mb_info)
     printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
     printf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
-    asm("int $0x69");
 }

@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "isr.h": "c"
+        "isr.h": "c",
+        "idt.h": "c",
+        "framebuffer.h": "c",
+        "vga.h": "c",
+        "nighterm.h": "c",
+        "cstdint": "c",
+        "multiboot.h": "c"
     }
 }
