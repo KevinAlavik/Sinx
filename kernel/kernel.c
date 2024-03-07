@@ -1,30 +1,33 @@
+// Standard libc Imports
 #include <stdint.h>
 #include <stddef.h>
+
+// Kernel libc Imports
 #include <printf.h>
 #include <string.h>
 
+// Boot Imports
 #include "multiboot/multiboot.h"
 
-#include "serial/serial.h"
+// System Imports
+#include "system/gdt.h"
 
-void put_pixel32(struct multiboot_info* mb_info, uint64_t x, uint64_t y, uint32_t color) {
-  *(uint32_t *)(mb_info->framebuffer_addr + x * (mb_info->framebuffer_bpp >> 3) +
-                y * mb_info->framebuffer_pitch) = color;
-}
+// Display Imports
+#include "drivers/display/framebuffer.h"
+#include "drivers/display/vga.h"
 
-void flush(struct multiboot_info* mb_info, uint8_t r, uint8_t g, uint8_t b) {
-  for (uint32_t x = 0; x < mb_info->framebuffer_width; x++) {
-    for (uint32_t y = 0; y < mb_info->framebuffer_height; y++) {
-      put_pixel32(mb_info, x, y, ((0xFF << 24) | (r << 16) | (g << 8) | b));
-    }
-  }
-}
-
-void main(struct multiboot_info* mb_info)
+void kernel_entry(struct multiboot_info* mb_info)
 {
     dprintf("\033c");
     dprintf("Hello from Sinx v0.0.1\n");
     dprintf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
-    dprintf("Screen: %ux%u\n", mb_info->framebuffer_width, mb_info->framebuffer_height);
-    flush(mb_info, 255, 255, 255);
+
+    framebuffer_t* fb = framebuffer_initialize(mb_info);
+    dprintf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
+
+    vga_initialize(fb);
+    dprintf("Initialized VGA Library\n");
+
+    gdt_init();
+    dprintf("Initialized GDT\n");
 }

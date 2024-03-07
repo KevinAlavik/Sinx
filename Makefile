@@ -7,7 +7,7 @@ AS := nasm
 AS_FLAGS := -f elf32
 
 CC := i686-elf-gcc
-CC_FLAGS := -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(KERNEL_DIR)/libc
+CC_FLAGS := -std=gnu99 -ffreestanding -O2 -Wall -Wextra -I$(KERNEL_DIR)/klibc
 
 rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 

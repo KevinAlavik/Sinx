@@ -31,11 +31,11 @@ section .bss
 section .text
     global _start
 
-extern main
+extern kernel_entry
 _start:
     mov esp, stack_top
     push ebx
-    call main
+    call kernel_entry
     cli
     hlt
     jmp 1b
