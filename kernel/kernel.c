@@ -30,10 +30,10 @@ void kernel_entry(struct multiboot_info* mb_info)
     vga_initialize(fb);
     dprintf("Initialized VGA Library\n");
 
-    gdt_init();
+    init_gdt();
     dprintf("Initialized GDT\n");
 
-    idt_init();
+    init_idt();
     dprintf("Initialized IDT\n");
 
     int n = nighterm_initialize(NULL, fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
@@ -46,4 +46,5 @@ void kernel_entry(struct multiboot_info* mb_info)
     printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
     printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
+    asm("int $0");
 }

@@ -3,53 +3,30 @@
 
 #include <stdint.h>
 
-typedef struct {
-    uint16_t offset_low;
-    uint16_t selector;
-    uint8_t ist;
+typedef struct idt_entry {
+    uint16_t base_lo;
+    uint16_t sel;
+    uint8_t always0;
     uint8_t flags;
-    uint16_t offset_middle;
-    uint32_t offset_high;
-    uint32_t zero;
+    uint16_t base_hi;
 } __attribute__((packed)) idt_entry_t;
 
-typedef struct {
+typedef struct idt_ptr {
     uint16_t limit;
-    uint64_t base;
-} __attribute__((packed)) idt_pointer_t;
+    uint32_t base;
+} __attribute__((packed)) idt_ptr_t;
 
-typedef struct {
-    uint64_t r15;
-    uint64_t r14;
-    uint64_t r13;
-    uint64_t r12;
-    uint64_t r11;
-    uint64_t r10;
-    uint64_t r9;
-    uint64_t r8;
-    uint64_t rbp;
-    uint64_t rdi;
-    uint64_t rsi;
-    uint64_t rdx;
-    uint64_t rcx;
-    uint64_t rbx;
-    uint64_t rax;
+typedef struct registers {
+    uint32_t ds;
+    uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    uint32_t int_no, err_code;
+    uint32_t eip, cs, eflags, useresp, ss;
+} registers_t;
 
-    uint64_t vector;
-    uint64_t err;
 
-    uint64_t rip;
-    uint64_t cs;
-    uint64_t rflags;
-    uint64_t rsp;
-    uint64_t ss;
-} __attribute__((packed)) int_frame_t;
-
-void load_idt(uint32_t);
-void trigger_interrupt(uint32_t);
-void set_idt_gate(int num, uint32_t base, uint16_t sel, uint8_t flags);
-void idt_init();
-void irq_register(uint8_t irq, void* handler);
-void irq_deregister(uint8_t irq);
+void init_idt();
+static void idt_set_gate(uint8_t, uint32_t, uint16_t, uint8_t);
+void idt_flush(uint32_t);
+void isr_handler(registers_t regs);
 
 #endif // __IDT_H__
