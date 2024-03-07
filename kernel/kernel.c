@@ -44,6 +44,5 @@ void kernel_entry(struct multiboot_info* mb_info)
     printf("Hello from Sinx v0.0.1\n");
     printf("Bootloader: %s\n", (char*)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
-    printf("%s\n", __FILE__);
-    printf("(Check serial for startup log)\n");
+    printf("Hello from %s\n", __FILE__);
 }
