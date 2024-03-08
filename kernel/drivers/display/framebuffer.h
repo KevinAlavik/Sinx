@@ -6,7 +6,7 @@
 #include "../../multiboot/multiboot.h"
 
 typedef struct {
-    uint64_t addr;
+    void *address;
     uint32_t pitch;
     uint32_t width;
     uint32_t height;

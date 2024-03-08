@@ -28,7 +28,7 @@ void kernel_entry(struct multiboot_info *mb_info)
     vga_initialize(fb);
     dprintf("Initialized VGA Library\n");
 
-    int n = nighterm_initialize(NULL, (uint32_t*)fb->addr, fb->width, fb->height, fb->pitch, fb->bpp, NULL, NULL);
+    int n = nighterm_initialize(NULL, (void*)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch ,(uint16_t)fb->bpp, NULL, NULL);
 
     if (n != NIGHTERM_SUCCESS)
     {
@@ -40,10 +40,4 @@ void kernel_entry(struct multiboot_info *mb_info)
     printf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
     printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
 
-    if(!nighterm_create_terminal("tty0", NULL, true)) {
-        dprintf("Failed to create tty0.\n");
-        return;
-    }
-
-    printf("Hello tty0!\n");
 }

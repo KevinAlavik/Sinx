@@ -5,7 +5,7 @@ GRUB_DIR="grub"
 ISO_DIR="public"
 GRUB_CFG="$GRUB_DIR/grub.cfg"
 
-make > /dev/null
+make -B
 
 if [ ! -f "$KERNEL_FILE" ]; then
     echo "Error: Kernel file '$KERNEL_FILE' not found."
@@ -22,7 +22,7 @@ mkdir -p "$ISO_DIR/boot/grub"
 cp "$KERNEL_FILE" "$ISO_DIR/boot/kernel.img"
 cp "$GRUB_CFG" "$ISO_DIR/boot/grub/grub.cfg"
 
-grub-mkrescue -o Sinx.iso "$ISO_DIR" > /dev/null 2>&1
+grub-mkrescue -o Sinx.iso "$ISO_DIR"
 
 rm -rf "$ISO_DIR"
 

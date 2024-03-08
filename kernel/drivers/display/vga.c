@@ -14,7 +14,7 @@ void put_pixel(uint32_t x, uint32_t y, uint32_t color) {
     uint8_t a = (color >> 24) & 0xFF;
 
     uint32_t *pixel =
-        (uint32_t *)(framebuffer->addr + x * (framebuffer->bpp >> 3) +
+        (uint32_t *)(framebuffer->address + x * (framebuffer->bpp >> 3) +
                     y * framebuffer->pitch);
     uint32_t current_color = *pixel;
 
