@@ -1,5 +1,5 @@
 #include "framebuffer.h"
-
+#include <printf.h>
 
 framebuffer_t fb;
 
@@ -9,9 +9,17 @@ framebuffer_t* framebuffer_initialize(struct multiboot_info* mb_info) {
     fb.height = mb_info->framebuffer_height;
     fb.bpp = mb_info->framebuffer_bpp;
     fb.pitch = mb_info->framebuffer_pitch;
-    return &fb;
+
+    // Idk why the vbe mode is 16762 but that works for graphic mode
+    if(mb_info->vbe_mode == 16762) {
+        return &fb;
+    } else {
+        return NULL;
+    }
 }
 
 framebuffer_t* request_framebuffer() {
     return &fb;
 }
+
+//

@@ -20,24 +20,30 @@
 
 void kernel_entry(struct multiboot_info *mb_info)
 {
-    printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
-    dprintf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
+    dprintf("* Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
+    dprintf("* Bootloader: %s\n", (char *)mb_info->boot_loader_name);
     framebuffer_t *fb = framebuffer_initialize(mb_info);
-    dprintf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
+    if(fb == NULL) {
+        dprintf("! Failed to initialize framebuffer.\n");
+        return;
+    }
+    dprintf("- Initialized Framebuffer.\n");
+    dprintf("* Screen Dimensions: %ux%u\n", fb->width, fb->height);
 
-    vga_initialize(fb);
-    dprintf("Initialized VGA Library\n");
+    if(vga_initialize(fb) != 0) {
+        dprintf("! Failed to initialize VGA\n");
+        return;
+    }
+    dprintf("- Initialized VGA Library\n");
 
     int n = nighterm_initialize(NULL, (void*)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch ,(uint16_t)fb->bpp, NULL, NULL);
 
     if (n != NIGHTERM_SUCCESS)
     {
-        dprintf("Failed to initialize terminal.\n");
+        dprintf("! Failed to initialize terminal.\n");
         return;
+    } else {
+        dprintf("- Initialized Terminal.\n");
     }
-
-    printf("Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
-    printf("Bootloader: %s\n", (char *)mb_info->boot_loader_name);
-    printf("Screen Dimensions: %ux%u\n\n", fb->width, fb->height);
-
+    printf("Graphics mode! (%ux%u)\n\n", fb->width, fb->height);
 }

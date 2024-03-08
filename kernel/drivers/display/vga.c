@@ -4,6 +4,9 @@ framebuffer_t* framebuffer;
 
 int vga_initialize(framebuffer_t* fb) {
     framebuffer = fb;
+    if(!framebuffer) {
+        return 1;
+    }
     return 0;
 }
 
