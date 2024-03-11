@@ -47,10 +47,10 @@ void kernel_entry(struct multiboot_info *mb_info)
         dprintf("! Failed to initialize terminal.\n");
         return;
     } else {
-        dprintf("- Initialized Terminal.\n");
+        log(OK, "Success", "Initialized Terminal.");
     }
 
-    log(OK, "Hello", "Welcome to Sinx v0.0.1!");
+    log(INFO, "Hello", "Welcome to Sinx v0.0.1!");
     log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
     log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
 }
