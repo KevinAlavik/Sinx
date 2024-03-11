@@ -4,6 +4,7 @@ KERNEL_FILE="bin/kernel.img"
 GRUB_DIR="grub"
 ISO_DIR="public"
 GRUB_CFG="$GRUB_DIR/grub.cfg"
+ISO_FILE="Sinx.iso"
 
 make -B
 
@@ -22,7 +23,15 @@ mkdir -p "$ISO_DIR/boot/grub"
 cp "$KERNEL_FILE" "$ISO_DIR/boot/kernel.img"
 cp "$GRUB_CFG" "$ISO_DIR/boot/grub/grub.cfg"
 
-grub-mkrescue -o Sinx.iso "$ISO_DIR" > /dev/null 2&>1
-printf "\n"
+grub-mkrescue -o "$ISO_FILE" "$ISO_DIR" > /dev/null 2>&1
+
+if [ $? -eq 0 ]; then
+    printf "\n  "
+    file "$ISO_FILE"
+    printf "  "
+    du -h "$ISO_FILE"
+else
+    printf "\nFailed to build ISO.\n"
+fi
 
 rm -rf "$ISO_DIR"
