@@ -37,6 +37,6 @@ _start:
     push ebx
     cli
     call kernel_entry
-    sti
+    cli
     hlt
     jmp 1b
