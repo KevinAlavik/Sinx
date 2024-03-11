@@ -40,8 +40,8 @@ void kernel_entry(struct multiboot_info *mb_info)
         dprintf("! Failed to initialize framebuffer.\n");
         return;
     }
-    dprintf("- Initialized Framebuffer.\n");
     dprintf("* Screen Dimensions: %ux%u\n", fb->width, fb->height);
+    dprintf("- Initialized Framebuffer.\n");
 
     if(vga_initialize(fb) != 0) {
         dprintf("! Failed to initialize VGA\n");

@@ -10,14 +10,11 @@ framebuffer_t* framebuffer_initialize(struct multiboot_info* mb_info) {
     fb.bpp = mb_info->framebuffer_bpp;
     fb.pitch = mb_info->framebuffer_pitch;
 
-    // Idk why the vbe mode is 16762 but that works for graphic mode
-    if(mb_info->vbe_mode == 16762) {
-        return &fb;
-    } else if(mb_info->vbe_mode == 3) {
+    if(mb_info->vbe_mode == 3) {
         dprintf("! You are currently in text mode.\n");
         return NULL;
     } else {
-        return NULL;
+        return &fb;
     }
 }
 
