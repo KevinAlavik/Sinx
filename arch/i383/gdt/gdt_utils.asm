@@ -2,12 +2,12 @@ global reloadSegments
 
 section .text
 reloadSegments:
-   JMP   0x08:.reload_CS
+    jmp 0x08:.reload_CS
 .reload_CS:
-   MOV   AX, 0x10
-   MOV   DS, AX
-   MOV   ES, AX
-   MOV   FS, AX
-   MOV   GS, AX
-   MOV   SS, AX
-   RET
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    ret

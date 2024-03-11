@@ -35,7 +35,8 @@ extern kernel_entry
 _start:
     mov esp, stack_top
     push ebx
-    call kernel_entry
     cli
+    call kernel_entry
+    sti
     hlt
     jmp 1b

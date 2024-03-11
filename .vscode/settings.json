@@ -8,6 +8,8 @@
         "cstdint": "c",
         "multiboot.h": "c",
         "stdbool.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "cpu.h": "c",
+        "cstdlib": "c"
     }
 }
