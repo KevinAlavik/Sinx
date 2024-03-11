@@ -11,7 +11,7 @@
 #include <multiboot/multiboot.h>
 
 // Arch Specific Imports
-#include <i383/cpu.h>
+#include <i383/cpu/cpu.h>
 
 // Kernel Driver Imports
 #include <drivers/display/framebuffer.h>
