@@ -46,5 +46,5 @@ void kernel_entry(struct multiboot_info *mb_info)
         dprintf("- Initialized Terminal.\n");
     }
 
-    printf("Hello from Sinx!\n");
+    printf("tty0");
 }

@@ -1,6 +1,7 @@
 #ifndef __VGA_H__
 #define __VGA_H__
 
+#include <printf.h>
 #include <stdint.h>
 
 #include "framebuffer.h"
@@ -8,7 +9,7 @@
 int vga_initialize(framebuffer_t* fb);
 
 void put_pixel(uint32_t x, uint32_t y, uint32_t color);
-void flush(uint8_t r, uint8_t g, uint8_t b);
+void flush(uint32_t hex);
 
 // Functions for converting colors into hex.
 uint32_t rgb(uint8_t r, uint8_t g, uint8_t b);

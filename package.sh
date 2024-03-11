@@ -25,12 +25,7 @@ cp "$GRUB_CFG" "$ISO_DIR/boot/grub/grub.cfg"
 
 grub-mkrescue -o "$ISO_FILE" "$ISO_DIR" > /dev/null 2>&1
 
-if [ $? -eq 0 ]; then
-    printf "\n  "
-    file "$ISO_FILE"
-    printf "  "
-    du -h "$ISO_FILE"
-else
+if [ $? -eq 1 ]; then
     printf "\nFailed to build ISO.\n"
 fi
 
