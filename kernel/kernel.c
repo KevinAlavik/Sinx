@@ -13,6 +13,7 @@
 
 // Arch Specific Imports
 #include <i383/cpu/cpu.h>
+#include <i383/gdt/gdt.h>
 
 // Kernel Driver Imports
 #include <drivers/display/framebuffer.h>
@@ -25,7 +26,8 @@
 
 extern int init(void);
 
-void printf_wrap(const char *format, ...) {
+void printf_wrap(const char *format, ...)
+{
     va_list args;
     va_start(args, format);
     vprintf(format, args);
@@ -37,7 +39,8 @@ void kernel_entry(struct multiboot_info *mb_info)
     dprintf("* Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
     dprintf("* Bootloader: %s\n", (char *)mb_info->boot_loader_name);
     framebuffer_t *fb = framebuffer_initialize(mb_info);
-    if(fb == NULL) {
+    if (fb == NULL)
+    {
         dprintf("! Failed to initialize framebuffer.\n");
         text_mode_warning();
         return;
@@ -45,20 +48,32 @@ void kernel_entry(struct multiboot_info *mb_info)
     dprintf("* Screen Dimensions: %ux%u\n", fb->width, fb->height);
     dprintf("- Initialized Framebuffer.\n");
 
-    if(vga_initialize(fb) != 0) {
+    if (vga_initialize(fb) != 0)
+    {
         dprintf("! Failed to initialize VGA\n");
         return;
     }
     dprintf("- Initialized VGA Library\n");
 
-    int n = nighterm_initialize(NULL, (void*)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch ,(uint16_t)fb->bpp, NULL, NULL);
+    int n = nighterm_initialize(NULL, (void *)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch, (uint16_t)fb->bpp, NULL, NULL);
 
     if (n != NIGHTERM_SUCCESS)
     {
         dprintf("! Failed to initialize terminal.\n");
         return;
-    } else {
+    }
+    else
+    {
         log(OK, "Success", "Initialized Terminal.");
+    }
+
+    if (!init_gdt())
+    {
+        log(OK, "Success", "Initialized GDT");
+    }
+    else
+    {
+        log(FATAL, "Fatal", "Failed to initialize GDT");
     }
 
     log(INFO, "Hello", "Welcome to Sinx v0.0.1!");

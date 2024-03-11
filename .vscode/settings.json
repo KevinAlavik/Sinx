@@ -6,6 +6,8 @@
         "vga.h": "c",
         "nighterm.h": "c",
         "cstdint": "c",
-        "multiboot.h": "c"
+        "multiboot.h": "c",
+        "stdbool.h": "c",
+        "stdint.h": "c"
     }
 }
