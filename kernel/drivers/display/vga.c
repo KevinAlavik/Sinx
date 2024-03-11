@@ -1,4 +1,5 @@
 #include "vga.h"
+#include "text.h"
 
 framebuffer_t* framebuffer;
 
@@ -53,3 +54,10 @@ uint32_t rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
     return ((uint32_t)a << 24) | ((uint32_t)r << 16) | ((uint32_t)g << 8) | b;
 }
 
+
+void text_mode_warning() {
+    terminal_initialize();
+	outb8(0x3D4, 0x0A);
+	outb8(0x3D5, 0x20);
+    terminal_writestring("You are currently booted into text mode? Please try to reboot");
+}

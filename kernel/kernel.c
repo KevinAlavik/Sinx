@@ -18,6 +18,7 @@
 #include <drivers/display/framebuffer.h>
 #include <drivers/display/vga.h>
 #include <drivers/display/nighterm/nighterm.h>
+#include <drivers/serial/serial.h>
 
 // Utility Imports
 #include <utils/logger.h>
@@ -38,6 +39,7 @@ void kernel_entry(struct multiboot_info *mb_info)
     framebuffer_t *fb = framebuffer_initialize(mb_info);
     if(fb == NULL) {
         dprintf("! Failed to initialize framebuffer.\n");
+        text_mode_warning();
         return;
     }
     dprintf("* Screen Dimensions: %ux%u\n", fb->width, fb->height);
