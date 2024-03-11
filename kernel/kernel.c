@@ -6,6 +6,7 @@
 // Kernel libc Imports
 #include <printf.h>
 #include <string.h>
+#include <kif.h>
 
 // Boot Imports
 #include <multiboot/multiboot.h>
@@ -17,6 +18,9 @@
 #include <drivers/display/framebuffer.h>
 #include <drivers/display/vga.h>
 #include <drivers/display/nighterm/nighterm.h>
+
+// Utility Imports
+#include <utils/logger.h>
 
 void kernel_entry(struct multiboot_info *mb_info)
 {
@@ -46,5 +50,5 @@ void kernel_entry(struct multiboot_info *mb_info)
         dprintf("- Initialized Terminal.\n");
     }
 
-    printf("tty0");
+    log(OK, "Sinx", "Welcome to Sinx v0.0.1!");
 }
