@@ -1,4 +1,4 @@
 #!/bin/bash
 ./tools/package.sh
-printf "\n------------------------\n"
+echo "------------------------"
 qemu-system-i386 -serial stdio -cdrom Sinx.iso ${@}
