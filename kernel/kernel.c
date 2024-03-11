@@ -22,6 +22,8 @@
 // Utility Imports
 #include <utils/logger.h>
 
+extern int init(void);
+
 void kernel_entry(struct multiboot_info *mb_info)
 {
     dprintf("* Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
@@ -53,4 +55,7 @@ void kernel_entry(struct multiboot_info *mb_info)
     log(INFO, "Hello", "Welcome to Sinx v0.0.1!");
     log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
     log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
+
+    int a = init();
+    printf("%d", a);
 }

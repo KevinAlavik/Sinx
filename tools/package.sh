@@ -6,7 +6,7 @@ ISO_DIR="public"
 GRUB_CFG="$GRUB_DIR/grub.cfg"
 ISO_FILE="Sinx.iso"
 
-make -B
+make
 
 if [ ! -f "$KERNEL_FILE" ]; then
     echo "Error: Kernel file '$KERNEL_FILE' not found."
