@@ -24,6 +24,13 @@
 
 extern int init(void);
 
+void printf_wrap(const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    vprintf(format, args);
+    va_end(args);
+}
+
 void kernel_entry(struct multiboot_info *mb_info)
 {
     dprintf("* Hello from Sinx v0.0.1 (Build date: %s. %s)\n", __DATE__, __TIME__);
@@ -56,6 +63,7 @@ void kernel_entry(struct multiboot_info *mb_info)
     log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
     log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
 
-    int a = init();
-    printf("%d", a);
+    init();
+
+    log(OK, "Success", "Successfully ran the test program.");
 }
