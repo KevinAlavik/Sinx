@@ -35,8 +35,6 @@ uint32_t inb32(uint16_t port) {
     return r;
 }
 
-void serial_write_string(uint16_t port, const char* data) {
-    while (*data != '\0') {
-        outb8(port, *data++);
-    }
+void serial_flush(uint16_t port) {
+    outb8(port, 0);
 }

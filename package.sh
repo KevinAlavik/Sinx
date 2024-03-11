@@ -22,7 +22,7 @@ mkdir -p "$ISO_DIR/boot/grub"
 cp "$KERNEL_FILE" "$ISO_DIR/boot/kernel.img"
 cp "$GRUB_CFG" "$ISO_DIR/boot/grub/grub.cfg"
 
-grub-mkrescue -o Sinx.iso "$ISO_DIR"
+grub-mkrescue -o Sinx.iso "$ISO_DIR" > /dev/null 2&>1
+printf "\n"
 
 rm -rf "$ISO_DIR"
-

@@ -8,15 +8,15 @@
 #include <string.h>
 
 // Boot Imports
-#include "multiboot/multiboot.h"
+#include <multiboot/multiboot.h>
 
-// System Imports
-#include "arch/cpu/cpu.h"
+// Arch Specific Imports
+#include <i383/cpu.h>
 
-// Display Imports
-#include "drivers/display/framebuffer.h"
-#include "drivers/display/vga.h"
-#include "drivers/display/nighterm/nighterm.h"
+// Kernel Driver Imports
+#include <drivers/display/framebuffer.h>
+#include <drivers/display/vga.h>
+#include <drivers/display/nighterm/nighterm.h>
 
 void kernel_entry(struct multiboot_info *mb_info)
 {
@@ -45,5 +45,6 @@ void kernel_entry(struct multiboot_info *mb_info)
     } else {
         dprintf("- Initialized Terminal.\n");
     }
-    printf("Graphics mode! (%ux%u)\n\n", fb->width, fb->height);
+
+    printf("Hello from Sinx!\n");
 }
