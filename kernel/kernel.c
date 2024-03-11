@@ -50,5 +50,7 @@ void kernel_entry(struct multiboot_info *mb_info)
         dprintf("- Initialized Terminal.\n");
     }
 
-    log(OK, "Sinx", "Welcome to Sinx v0.0.1!");
+    log(OK, "Hello", "Welcome to Sinx v0.0.1!");
+    log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
+    log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
 }

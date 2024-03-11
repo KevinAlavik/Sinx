@@ -10,22 +10,22 @@ void log(enum LogLevel level, char* tag, char* fmt, ...) {
 
     switch (level) {
         case OK:
-            nighterm_set_fg_color(123, 255, 66);
+            nighterm_set_fg_color(173, 255, 113);
             printf("[%s] ", tag);
             nighterm_set_fg_color(255, 255, 255);
             break;
         case WARNING:
-            nighterm_set_fg_color(255, 165, 0);
+            nighterm_set_fg_color(255, 191, 0);
             printf("[%s] ", tag);
             nighterm_set_fg_color(255, 255, 255);
             break;
         case ERROR:
-            nighterm_set_fg_color(255, 0, 0);
+            nighterm_set_fg_color(255, 64, 64);
             printf("[%s] ", tag);
             nighterm_set_fg_color(255, 255, 255);
             break;
         case FATAL:
-            nighterm_set_fg_color(128, 0, 128);
+            nighterm_set_fg_color(191, 64, 191);
             printf("[%s] ", tag);
             nighterm_set_fg_color(255, 255, 255);
             break;
@@ -35,7 +35,7 @@ void log(enum LogLevel level, char* tag, char* fmt, ...) {
             nighterm_set_fg_color(255, 255, 255);
             break;
         case INFO:
-            nighterm_set_fg_color(0, 128, 128);
+            nighterm_set_fg_color(0, 255, 255);
             printf("[%s] ", tag);
             nighterm_set_fg_color(255, 255, 255);
             break;
