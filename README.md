@@ -3,9 +3,9 @@
 Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It is intended to provide a basic understanding of kernel development concepts and serves as a starting point for learning about operating systems.
 
 ## Features
-
-- Supports Multiboot2 protocol
-- Bootloader: GRUB
+- Terminal
+- stdio (printf lib)
+- GDT (we are working on it)
 
 ## How to Use
 
@@ -74,7 +74,10 @@ Sinx is inspired by various educational resources and tutorials available online
 
 - GRUB
 - QEMU
-- Multiboot2 protocol
+- Multiboot protocol
+
+## Thanks to lolguy91 and his OS dev server!
+If you have had a unpleasant time in the regular OS dev server, aka they are not very helpful. Well now there is a non toxic and newbie friendly server in town: [The Less-Toxic OSDev Server](https://discord.gg/RgPdpDBDTM)
 
 ## Pronunciation
 
