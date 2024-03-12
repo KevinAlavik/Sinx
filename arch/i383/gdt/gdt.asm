@@ -11,3 +11,4 @@ complete_flush:
     mov fs, ax
     mov gs, ax
     mov ss, ax
+    ret

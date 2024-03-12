@@ -12,7 +12,7 @@ struct GDT_Entry gdt_entry(uint32_t base, uint16_t limit, uint8_t access, uint8_
     entry.base_high = (base >> 24) & 0xFF;
     entry.limit_low = limit & 0xFFFF;
     entry.limit_flags = (limit >> 16) & 0x0F;
-    entry.limit_flags |= (flags & 0xF0);
+    entry.limit_flags |= flags << 8;
     entry.access = access;
     return entry;
 }
