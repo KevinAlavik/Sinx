@@ -29,7 +29,7 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
     make
     ```
 
-    This will generate the raw kernel image.
+    This will generate the raw kernel image. If this failes see **Important**
 
 4. Package the kernel into an ISO:
 
