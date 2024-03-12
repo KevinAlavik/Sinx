@@ -1,5 +1,7 @@
 #include "gdt.h"
 
+struct GDT gdt;
+
 extern void reloadSegments(void);
 
 struct GDT_Entry gdt_entry(uint32_t base, uint16_t limit, uint8_t access, uint8_t flags)
@@ -18,8 +20,6 @@ struct GDT_Entry gdt_entry(uint32_t base, uint16_t limit, uint8_t access, uint8_
 int init_gdt()
 {
     a20_enable();
-
-    struct GDT gdt;
     gdt.null_descriptor = gdt_entry(0, 0x0000, 0x00, 0x0);
     gdt.kernel_code_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0x9A, 0xC);
     gdt.kernel_data_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0x92, 0xC);

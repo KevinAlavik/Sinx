@@ -55,5 +55,5 @@ bin/*
 build/*
 *.img
 core
-
 /.vscode/
+Sinx.iso
