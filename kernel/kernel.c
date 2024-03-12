@@ -61,20 +61,5 @@ void kernel_entry(struct multiboot_info *mb_info)
         return;
     }
 
-    /*if (!init_gdt())
-    {
-        log(OK, "Success", "Initialized GDT");
-    }
-    else
-    {
-        log(FATAL, "Fatal", "Failed to initialize GDT");
-    }
-
-    log(INFO, "Hello", "Welcome to Sinx v0.0.1!");
-    log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
-    log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
-
     init();
-
-    log(OK, "Success", "Successfully ran the test program.");
 }
