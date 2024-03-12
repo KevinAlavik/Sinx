@@ -35,10 +35,10 @@ Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational 
 4. Package the kernel into an ISO:
 
     ```
-    ./tools/package.sh
+    make package
     ```
 
-    This script will create an ISO image containing the kernel.
+    This script will create an ISO image containing the kernel and GRUB.
 
 5. Run the kernel using QEMU or your preferred virtualization software.
 
@@ -52,7 +52,7 @@ Then this should be in the root of your Sinx directory
 
 ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/d7e5a63b-2b3e-4126-a306-fa50923b76e4)
 
-To run it you could run `./tools/boot.sh` which boots using QEMU. This also builds so no need to run package before, since its ran in the boot script.
+To run it you could run `make qemu` which boots using QEMU. This also builds so no need to run package before.
 It should look something like this:
 
 ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/62edb681-49d9-4bcc-acb3-aae04d44db00)

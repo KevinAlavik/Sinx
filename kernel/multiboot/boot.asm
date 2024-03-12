@@ -33,6 +33,9 @@ section .text
 
 extern kernel_entry
 _start:
+    mov eax, cr0
+    or eax, 0x1
+    mov cr0, eax
     mov esp, stack_top
     push ebx
     cli

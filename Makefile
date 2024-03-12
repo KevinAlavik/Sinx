@@ -2,7 +2,11 @@ BUILD_DIR := build
 BIN_DIR := bin
 KERNEL_DIR := kernel
 ARCH_DIR := arch
+GRUB_DIR := grub
+ISO_DIR := public
+GRUB_CFG := $(GRUB_DIR)/grub.cfg
 BOOT_PATH := $(KERNEL_DIR)/multiboot/boot.asm
+ISO_FILE := Sinx.iso
 
 AS := nasm
 AS_FLAGS := -f elf32
@@ -17,29 +21,58 @@ KERNEL_C_FILES := $(call rwildcard,$(KERNEL_DIR)/,*.c)
 ARCH_ASM_FILES := $(call rwildcard,$(ARCH_DIR)/,*.asm)
 ARCH_C_FILES := $(call rwildcard,$(ARCH_DIR)/,*.c)
 
-.PHONY: all
+QEMU_ARGS := -serial stdio --enable-kvm
+
+.PHONY: all clean package
+
 all: $(BIN_DIR)/kernel.img
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@printf "  CC $<\n"
+	@echo "  CC $<"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
-$(BUILD_DIR)/%.o: %.asm
+$(BUILD_DIR)/%-asm.o: %.asm
 	@mkdir -p $(dir $@)
-	@printf "  AS $<\n"
+	@echo "  AS $<"
 	@$(AS) $(AS_FLAGS) $< -o $@
 
 $(BUILD_DIR)/boot.o: $(BOOT_PATH)
 	@mkdir -p $(BUILD_DIR)
-	@printf "  AS $(BOOT_PATH)\n"
+	@echo "  AS $(BOOT_PATH)"
 	@$(AS) $(AS_FLAGS) $(BOOT_PATH) -o $@
 
-$(BIN_DIR)/kernel.img: $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o)
+$(BIN_DIR)/kernel.img: $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o)
 	@mkdir -p $(BIN_DIR)
-	@printf "  LD $@\n"
-	@$(CC) -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o) -lgcc
+	@echo "  LD $@"
+	@$(CC) -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o) -lgcc
 
 clean:
-	@rm -rf $(BUILD_DIR) $(BIN_DIR) Sinx.iso
-	@printf "Removed build files\n"
+	@find $(BUILD_DIR) -type f -exec sh -c 'echo "  RM {}" && rm -f {}' \;
+	@find $(BIN_DIR) -type f -exec sh -c 'echo "  RM {}" && rm -f {}' \;
+	@echo "  RM $(ISO_FILE)"
+	@rm -f $(ISO_FILE)
+
+package: all
+	@if [ ! -f "$(BIN_DIR)/kernel.img" ]; then \
+	    echo "Error: Kernel file '$(BIN_DIR)/kernel.img' not found."; \
+	    exit 1; \
+	fi
+	@if [ ! -d "$(GRUB_DIR)" ]; then \
+	    echo "Error: GRUB directory '$(GRUB_DIR)' not found."; \
+	    exit 1; \
+	fi
+	@echo "  MKDIR $(ISO_DIR)/boot/grub"
+	@mkdir -p "$(ISO_DIR)/boot/grub"
+	@echo "  CP $(BIN_DIR)/kernel.img -> $(ISO_DIR)/boot/kernel.img"
+	@cp "$(BIN_DIR)/kernel.img" "$(ISO_DIR)/boot/kernel.img"
+	@echo "  CP $(GRUB_CFG) -> $(ISO_DIR)/boot/grub/grub.cfg"
+	@cp "$(GRUB_CFG)" "$(ISO_DIR)/boot/grub/grub.cfg"
+	@echo "  OUT $(ISO_FILE)"
+	@grub-mkrescue -o "$(ISO_FILE)" "$(ISO_DIR)" > /dev/null 2>&1 || (echo "Failed to build ISO."; exit 1;)
+	@echo "  RM $(ISO_DIR)"
+	@rm -rf "$(ISO_DIR)"
+
+qemu: package
+	@printf "  QEMU $(ISO_FILE) {$(QEMU_ARGS)} \n\n"
+	@qemu-system-i386 -cdrom $(ISO_FILE) $(QEMU_ARGS)

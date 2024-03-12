@@ -24,7 +24,7 @@
 // Utility Imports
 #include <utils/logger.h>
 
-extern int init(void);
+extern int entry(void);
 
 void printf_wrap(const char *format, ...)
 {
@@ -55,32 +55,16 @@ void kernel_entry(struct multiboot_info *mb_info)
     }
     dprintf("- Initialized VGA Library\n");
 
-    int n = nighterm_initialize(NULL, (void *)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch, (uint16_t)fb->bpp, NULL, NULL);
-
-    if (n != NIGHTERM_SUCCESS)
+    if (nighterm_initialize(NULL, (void *)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch, (uint16_t)fb->bpp, NULL, NULL) != NIGHTERM_SUCCESS)
     {
         dprintf("! Failed to initialize terminal.\n");
         return;
-    }
-    else
-    {
-        log(OK, "Success", "Initialized Terminal.");
     }
 
     if (!init_gdt())
     {
         log(OK, "Success", "Initialized GDT");
     }
-    else
-    {
-        log(FATAL, "Fatal", "Failed to initialize GDT");
-    }
 
-    log(INFO, "Hello", "Welcome to Sinx v0.0.1!");
-    log(INFO, "Info", "Screen size %dx%d", fb->width, fb->height);
-    log(INFO, "Info", "Bootloader: %s", (char *)mb_info->boot_loader_name);
-
-    init();
-
-    log(OK, "Success", "Successfully ran the test program.");
+    entry();
 }
