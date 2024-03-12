@@ -21,7 +21,7 @@ KERNEL_C_FILES := $(call rwildcard,$(KERNEL_DIR)/,*.c)
 ARCH_ASM_FILES := $(call rwildcard,$(ARCH_DIR)/,*.asm)
 ARCH_C_FILES := $(call rwildcard,$(ARCH_DIR)/,*.c)
 
-QEMU_ARGS := -serial stdio --enable-kvm
+QEMU_ARGS := -serial stdio -vga std
 
 .PHONY: all clean package
 
