@@ -1,6 +1,7 @@
 # Sinx
+*Most of this README has been AI generated, tho its content is true.* 
 
-Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It is intended to provide a basic understanding of kernel development concepts and serves as a starting point for learning about operating systems.
+Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational purposes. It is intended to provide a basic understanding of kernel development concepts and serves as a starting point for learning about operating systems. **Sinx is a Semi-Monolithic Kernel operating system that blends the efficiency of monolithic kernels with the modularity and reliability of microkernels. It retains critical system components within the kernel space for performance reasons while moving non-essential services, such as device drivers and file systems, to user space. This design promotes flexibility, modularity, and system stability, making Sinx an optimal choice for a wide range of computing environments.**
 
 ## Features
 - Terminal
