@@ -46,14 +46,12 @@ void kernel_entry(struct multiboot_info *mb_info)
         return;
     }
     dprintf("* Screen Dimensions: %ux%u\n", fb->width, fb->height);
-    dprintf("- Initialized Framebuffer.\n");
 
     if (vga_initialize(fb) != 0)
     {
         dprintf("! Failed to initialize VGA\n");
         return;
     }
-    dprintf("- Initialized VGA Library\n");
 
     if (nighterm_initialize(NULL, (void *)fb->address, (uint64_t)fb->width, (uint64_t)fb->height, (uint64_t)fb->pitch, (uint16_t)fb->bpp, NULL, NULL) != NIGHTERM_SUCCESS)
     {
@@ -61,5 +59,11 @@ void kernel_entry(struct multiboot_info *mb_info)
         return;
     }
 
-    init();
+    if (!init_gdt())
+    {
+        log(FATAL, "FATAL", "Failed to initialize GDT.");
+        dprintf("! Failed to initialize GDT.\n");
+    }
+
+    entry();
 }

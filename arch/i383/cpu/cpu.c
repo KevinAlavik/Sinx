@@ -17,10 +17,9 @@ void hlt()
     }
 }
 
-void a20_enable() {
+void a20_enable()
+{
     uint8_t i = inb8(0x92);
     i ^= (1 << 6);
     outb8(0x92, i);
-
-    dprintf("- Enabled the A20 line.\n");
 }
