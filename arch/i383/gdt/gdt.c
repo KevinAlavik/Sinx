@@ -21,10 +21,10 @@ int init_gdt()
 
     struct GDT gdt;
     gdt.null_descriptor = gdt_entry(0, 0x0000, 0x00, 0x0);
-    gdt.kernel_code_segment = gdt_entry(0, 0xFFFF, 0x9A, 0xC);
-    gdt.kernel_data_segment = gdt_entry(0, 0xFFFF, 0x92, 0xC);
-    gdt.user_code_segment = gdt_entry(0, 0xFFFF, 0xFA, 0xC);
-    gdt.user_data_segment = gdt_entry(0, 0xFFFF, 0xF2, 0xC);
+    gdt.kernel_code_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0x9A, 0xC);
+    gdt.kernel_data_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0x92, 0xC);
+    gdt.user_code_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0xFA, 0xC);
+    gdt.user_data_segment = gdt_entry(0, (uint16_t)0xFFFFF, 0xF2, 0xC);
     gdt.task_state_segment = gdt_entry(0, 0x0, 0x89, 0x0);
 
     struct
