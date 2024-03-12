@@ -36,8 +36,10 @@ $(BUILD_DIR)/boot.o: $(BOOT_PATH)
 	@$(AS) $(AS_FLAGS) $(BOOT_PATH) -o $@
 
 $(BIN_DIR)/kernel.img: $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o)
+	@mkdir -p $(BIN_DIR)
 	@printf "  LD $@\n"
 	@$(CC) -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o) -lgcc
 
 clean:
-	@rm -rf $(BUILD_DIR)/* $(BIN_DIR)/*
+	@rm -rf $(BUILD_DIR) $(BIN_DIR) Sinx.iso
+	@printf "Removed build files\n"
