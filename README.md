@@ -42,8 +42,9 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
 5. Run the kernel using QEMU or your preferred virtualization software.
 
 ## Important!
+**The following steps will most likley not be needed but if you need here they are (They imply for other directory themed errors): **
 ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/213220c4-68a2-47a0-9ded-b6af6731d0ee)
-You will see this if its the first time you compile. Dont worry, you just need to run `mkdir bin` and rerun now it should look like this.
+You will see this if its the first time you compile. Dont worry, you just need to run `mkdir bin` and rerun now it should look like this. 
 
 ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/af501e5e-a122-45a3-b45b-a37f00ee9300)
 Then this should be in the root of your Sinx directory
