@@ -16,7 +16,14 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
     cd Sinx
     ```
 
-2. Compile the kernel:
+2. Initialize Submodules:
+   ```
+   git submodule update --init
+   ```
+   
+   This downloads modules like the terminal (`kernel/drivers/display/nighterm`)
+
+3. Compile the kernel:
 
     ```
     make
@@ -24,7 +31,7 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
 
     This will generate the raw kernel image.
 
-3. Package the kernel into an ISO:
+4. Package the kernel into an ISO:
 
     ```
     ./tools/package.sh
@@ -32,7 +39,7 @@ Sinx is a simple 32-bit Unix-like kernel developed for educational purposes. It 
 
     This script will create an ISO image containing the kernel.
 
-4. Run the kernel using QEMU or your preferred virtualization software.
+5. Run the kernel using QEMU or your preferred virtualization software.
 
 ## Important!
 ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/213220c4-68a2-47a0-9ded-b6af6731d0ee)
