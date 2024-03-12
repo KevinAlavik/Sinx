@@ -87,6 +87,15 @@ Sinx is developed for educational purposes and is provided as-is, without any wa
 ## Credits
 - [Nighterm](https://github.com/schkwve/nighterm-extended): Powers most of the non GUI terminal stuff.
 
+## Sponsors
+
+This project is an open-source endeavor driven by passion and dedication. We do not generate revenue from our work. As a sole developer, I personally fund this project's development and maintenance. However, your support through sponsorship can greatly assist in its sustainability and growth.
+
+[![Sponsor on GitHub](https://img.shields.io/badge/Sponsor-GitHub-red?logo=github)](https://github.com/sponsors/KevinAlavik)
+
+Your sponsorship helps ensure the continued improvement and sustainability of this project. Thank you for considering supporting us!
+
+
 ## License
 
 Sinx is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
