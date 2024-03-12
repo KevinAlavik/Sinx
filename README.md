@@ -16,11 +16,15 @@ Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational 
     git clone https://github.com/KevinAlavik/Sinx.git
     cd Sinx
     ```
+    ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/ab55c3b8-68ce-4de7-b222-23bd9ad36306)
+
 
 2. Initialize Submodules:
    ```
    git submodule update --init
    ```
+   ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/9c55e264-d32b-47c0-b869-45fadc1b1ac8)
+
    
    This downloads modules like the terminal (`kernel/drivers/display/nighterm`)
 
@@ -29,35 +33,30 @@ Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational 
     ```
     make
     ```
+    ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/a03d308b-5c89-4430-87d1-996dbb22c13c)
 
-    This will generate the raw kernel image. If this failes see **Important**
+
+    This will generate the raw kernel image.
 
 4. Package the kernel into an ISO:
 
     ```
     make package
     ```
+    ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/81e2f068-5fed-4fa3-b09d-cad4f3d137ac)
+
 
     This script will create an ISO image containing the kernel and GRUB.
 
-5. Run the kernel using QEMU or your preferred virtualization software.
+5. Run the kernel using QEMU:
+   ```
+   make qemu
+   ```
+   ![image](https://github.com/KevinAlavik/Sinx/assets/95900603/15d34449-ed50-46c1-a88a-5c5f39b00463)
 
-## Important! *
-\* The following steps will most likley not be needed but if you need here they are (They imply for other directory themed errors):
-![image](https://github.com/KevinAlavik/Sinx/assets/95900603/213220c4-68a2-47a0-9ded-b6af6731d0ee)
-You will see this if its the first time you compile. Dont worry, you just need to run `mkdir bin` and rerun now it should look like this. 
-
-![image](https://github.com/KevinAlavik/Sinx/assets/95900603/af501e5e-a122-45a3-b45b-a37f00ee9300)
-Then this should be in the root of your Sinx directory
-
-![image](https://github.com/KevinAlavik/Sinx/assets/95900603/d7e5a63b-2b3e-4126-a306-fa50923b76e4)
-
-To run it you could run `make qemu` which boots using QEMU. This also builds so no need to run package before.
-It should look something like this:
-
-![image](https://github.com/KevinAlavik/Sinx/assets/95900603/62edb681-49d9-4bcc-acb3-aae04d44db00)
-
-And boom ur in!
+   ^^^ This might look different in the future. (Mostly more boot logs)
+   
+   In the future there will be targets to run Sinx in other emulators.
 
 ## What to do next?
 Just explore, right now there is nothing much in the OS so just be patient :)
