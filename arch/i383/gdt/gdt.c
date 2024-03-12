@@ -45,7 +45,7 @@ int init_gdt()
     asm volatile("lgdt %0" : : "m"(gdtr));
 
     dprintf("- Loaded GDT\n");
-    reloadSegments();
+    reloadSegments(); // TODO: Fix this bruh
 
     dprintf("- Initialized GDT\n");
 
