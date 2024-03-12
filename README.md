@@ -65,10 +65,6 @@ Just explore, right now there is nothing much in the OS so just be patient :)
 
 Contributions to Sinx are welcome! Feel free to submit pull requests for bug fixes, improvements, or new features. For major changes, please open an issue first to discuss potential updates.
 
-## License
-
-Sinx is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgements
 
 Sinx is inspired by various educational resources and tutorials available online. Special thanks to the developers and contributors of the following projects:
@@ -88,3 +84,9 @@ The name "Sinx" is pronounced just like "sinks" (/sɪŋks/).
 
 Sinx is developed for educational purposes and is provided as-is, without any warranty. Use at your own risk.
 
+## Credits
+- [Nighterm](https://github.com/schkwve/nighterm-extended): Powers most of the non GUI terminal stuff.
+
+## License
+
+Sinx is licensed under the GNU General Public License v3.0 (GPL-3.0). See the [LICENSE](LICENSE) file for details.
