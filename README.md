@@ -8,6 +8,12 @@ Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational 
 - stdio (printf lib)
 - GDT (we are working on it)
 
+# Dependencies
+- i686-elf-binutils
+- i686-elf-gcc
+- nasm
+- qemu-system-i383 (for running with qemu)
+
 ## How to Use
 
 1. Clone the repository:
