@@ -12,7 +12,7 @@ Sinx is a free to use, simple 32-bit Unix-like kernel developed for educational 
 - i686-elf-binutils
 - i686-elf-gcc
 - nasm
-- qemu-system-i383 (for running with qemu)
+- qemu-system-i386 (for running with qemu)
 - GRUB 2
 
 ## How to Use
