@@ -25,7 +25,7 @@ ARCH_C_FILES := $(call rwildcard,$(ARCH_DIR)/,*.c)
 INITRD_DIR := $(RAMDISK_DIR)
 INITRD_FILES := $(wildcard $(RAMDISK_DIR)/*) $(wildcard $(RAMDISK_DIR)/*/*)
 
-QEMU_ARGS := -serial stdio -vga std
+QEMU_ARGS := -serial stdio -vga std -name Sinx -boot d
 
 .PHONY: all clean package
 
@@ -57,7 +57,7 @@ clean:
 	@printf "  RM\t$(ISO_FILE)\n"
 	@rm -f $(ISO_FILE)
 
-package: all $(BIN_DIR)/initrd.img
+package: all $(BIN_DIR)/initrd
 	@if [ ! -f "$(BIN_DIR)/kernel.img" ]; then \
 		@echo "Error: Kernel file '$(BIN_DIR)/kernel.img' not found."; \
 		exit 1; \
@@ -70,8 +70,8 @@ package: all $(BIN_DIR)/initrd.img
 	@mkdir -p "$(ISO_DIR)/boot/grub"
 	@printf "  CP\t$(BIN_DIR)/kernel.img\t-> $(ISO_DIR)/boot/kernel.img\n"
 	@cp "$(BIN_DIR)/kernel.img" "$(ISO_DIR)/boot/kernel.img"
-	@printf "  CP\t$(BIN_DIR)/initrd.img\t-> $(ISO_DIR)/boot/initrd.img\n"
-	@cp "$(BIN_DIR)/initrd.img" "$(ISO_DIR)/boot/initrd.img"
+	@printf "  CP\t$(BIN_DIR)/initrd\t-> $(ISO_DIR)/boot/initrd\n"
+	@cp "$(BIN_DIR)/initrd" "$(ISO_DIR)/boot/initrd"
 	@printf "  CP\t$(GRUB_CFG)\t-> $(ISO_DIR)/boot/grub/grub.cfg\n"
 	@cp "$(GRUB_CFG)" "$(ISO_DIR)/boot/grub/grub.cfg"
 	@printf "  OUT\t$(ISO_FILE)\n"
@@ -79,7 +79,7 @@ package: all $(BIN_DIR)/initrd.img
 	@printf "  RM\t$(ISO_DIR)\n"
 	@rm -rf "$(ISO_DIR)"
 
-$(BIN_DIR)/initrd.img: $(INITRD_FILES)
+$(BIN_DIR)/initrd: $(INITRD_FILES)
 	@mkdir -p $(BIN_DIR)
 	@printf "  GEN\t$@\n"
 	@tar -cf $@ -C $(INITRD_DIR) .
