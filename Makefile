@@ -2,6 +2,7 @@ BUILD_DIR := build
 BIN_DIR := bin
 KERNEL_DIR := kernel
 ARCH_DIR := arch
+RAMDISK_DIR := initrd
 GRUB_DIR := grub
 ISO_DIR := public
 GRUB_CFG := $(GRUB_DIR)/grub.cfg
@@ -21,6 +22,9 @@ KERNEL_C_FILES := $(call rwildcard,$(KERNEL_DIR)/,*.c)
 ARCH_ASM_FILES := $(call rwildcard,$(ARCH_DIR)/,*.asm)
 ARCH_C_FILES := $(call rwildcard,$(ARCH_DIR)/,*.c)
 
+INITRD_DIR := $(RAMDISK_DIR)
+INITRD_FILES := $(wildcard $(RAMDISK_DIR)/*) $(wildcard $(RAMDISK_DIR)/*/*)
+
 QEMU_ARGS := -serial stdio -vga std
 
 .PHONY: all clean package
@@ -29,50 +33,57 @@ all: $(BIN_DIR)/kernel.img
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@echo "  CC $<"
+	@printf "  CC\t$<\n"
 	@$(CC) -c $< -o $@ $(CFLAGS)
 
 $(BUILD_DIR)/%-asm.o: %.asm
 	@mkdir -p $(dir $@)
-	@echo "  AS $<"
+	@printf "  AS\t$<\n"
 	@$(AS) $(AS_FLAGS) $< -o $@
 
 $(BUILD_DIR)/boot.o: $(BOOT_PATH)
 	@mkdir -p $(BUILD_DIR)
-	@echo "  AS $(BOOT_PATH)"
+	@printf "  AS\t$(BOOT_PATH)\n"
 	@$(AS) $(AS_FLAGS) $(BOOT_PATH) -o $@
 
 $(BIN_DIR)/kernel.img: $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o)
 	@mkdir -p $(BIN_DIR)
-	@echo "  LD $@"
+	@printf "  LD\t$@\n"
 	@$(CC) -T linker.ld -o $@ -ffreestanding -O2 -nostdlib $(BUILD_DIR)/boot.o $(KERNEL_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(KERNEL_C_FILES:%.c=$(BUILD_DIR)/%.o) $(ARCH_ASM_FILES:%.asm=$(BUILD_DIR)/%-asm.o) $(ARCH_C_FILES:%.c=$(BUILD_DIR)/%.o) -lgcc
 
 clean:
-	@find $(BUILD_DIR) -type f -exec sh -c 'echo "  RM {}" && rm -f {}' \;
-	@find $(BIN_DIR) -type f -exec sh -c 'echo "  RM {}" && rm -f {}' \;
-	@echo "  RM $(ISO_FILE)"
+	@find $(BUILD_DIR) -type f -exec sh -c 'printf "  RM\t{}\n" && rm -f {}' \;
+	@find $(BIN_DIR) -type f -exec sh -c 'printf "  RM\t{}\n" && rm -f {}' \;
+	@printf "  RM\t$(ISO_FILE)\n"
 	@rm -f $(ISO_FILE)
 
-package: all
+package: all $(BIN_DIR)/initrd.img
 	@if [ ! -f "$(BIN_DIR)/kernel.img" ]; then \
-	    echo "Error: Kernel file '$(BIN_DIR)/kernel.img' not found."; \
-	    exit 1; \
+		@echo "Error: Kernel file '$(BIN_DIR)/kernel.img' not found."; \
+		exit 1; \
 	fi
 	@if [ ! -d "$(GRUB_DIR)" ]; then \
-	    echo "Error: GRUB directory '$(GRUB_DIR)' not found."; \
-	    exit 1; \
+		@echo "Error: GRUB directory '$(GRUB_DIR)' not found."; \
+		exit 1; \
 	fi
-	@echo "  MKDIR $(ISO_DIR)/boot/grub"
+	@printf "  MKDIR\t$(ISO_DIR)/boot/grub\n"
 	@mkdir -p "$(ISO_DIR)/boot/grub"
-	@echo "  CP $(BIN_DIR)/kernel.img -> $(ISO_DIR)/boot/kernel.img"
+	@printf "  CP\t$(BIN_DIR)/kernel.img\t-> $(ISO_DIR)/boot/kernel.img\n"
 	@cp "$(BIN_DIR)/kernel.img" "$(ISO_DIR)/boot/kernel.img"
-	@echo "  CP $(GRUB_CFG) -> $(ISO_DIR)/boot/grub/grub.cfg"
+	@printf "  CP\t$(BIN_DIR)/initrd.img\t-> $(ISO_DIR)/boot/initrd.img\n"
+	@cp "$(BIN_DIR)/initrd.img" "$(ISO_DIR)/boot/initrd.img"
+	@printf "  CP\t$(GRUB_CFG)\t-> $(ISO_DIR)/boot/grub/grub.cfg\n"
 	@cp "$(GRUB_CFG)" "$(ISO_DIR)/boot/grub/grub.cfg"
-	@echo "  OUT $(ISO_FILE)"
+	@printf "  OUT\t$(ISO_FILE)\n"
 	@grub-mkrescue -o "$(ISO_FILE)" "$(ISO_DIR)" > /dev/null 2>&1 || (echo "Failed to build ISO."; exit 1;)
-	@echo "  RM $(ISO_DIR)"
+	@printf "  RM\t$(ISO_DIR)\n"
 	@rm -rf "$(ISO_DIR)"
 
+$(BIN_DIR)/initrd.img: $(INITRD_FILES)
+	@mkdir -p $(BIN_DIR)
+	@printf "  GEN\t$@\n"
+	@tar -cf $@ -C $(INITRD_DIR) .
+
 qemu: package
-	@printf "  QEMU $(ISO_FILE) {$(QEMU_ARGS)} \n\n"
+	@printf "  QEMU\t$(ISO_FILE) {$(QEMU_ARGS)} \n\n"
 	@qemu-system-i386 -cdrom $(ISO_FILE) $(QEMU_ARGS)
