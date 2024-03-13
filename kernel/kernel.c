@@ -53,5 +53,14 @@ void kernel_entry(struct multiboot_info *mb) {
         dprintf("! Failed to initialize terminal.\n");
         return;
     }
-    entry();
+
+    dprintf("* Skipping to initialize GDT\n");
+
+    int status = entry();
+    printf("%d\n", status);
+
+    uint32_t color1 = rgb(255, 0, 0);
+    uint32_t color2 = rgb(0, 255, 0);
+    uint32_t color3 = rgb(0, 0, 255);
+    draw_triangle_with_gradient(color1, color2, color3);
 }

@@ -9,4 +9,5 @@ entry:
     push message
     call printf_wrap
     add esp, 4
+    mov eax, 69
     ret

@@ -1,5 +1,6 @@
 #include "vga.h"
 #include "text.h"
+#include <math.h>
 
 framebuffer_t *framebuffer;
 
@@ -66,4 +67,99 @@ void text_mode_warning()
     outb8(0x3D4, 0x0A);
     outb8(0x3D5, 0x20);
     terminal_writestring("You are currently booted into text mode? Please try to reboot");
+}
+
+typedef struct {
+    int x;
+    int y;
+} Point;
+
+void swap_points(Point *a, Point *b) {
+    Point temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void draw_triangle_with_gradient(uint32_t hex_color1, uint32_t hex_color2, uint32_t hex_color3) {
+    int side = framebuffer->height / 2;
+    int half_height = (int)(side * sqrt(3) / 2);
+
+    Point vertices[3] = {
+        {framebuffer->width / 2, (framebuffer->height - half_height) / 2},
+        {framebuffer->width / 4, (framebuffer->height + half_height) / 2},
+        {3 * framebuffer->width / 4, (framebuffer->height + half_height) / 2}
+    };
+
+    if (vertices[0].y > vertices[1].y) swap_points(&vertices[0], &vertices[1]);
+    if (vertices[1].y > vertices[2].y) swap_points(&vertices[1], &vertices[2]);
+    if (vertices[0].y > vertices[1].y) swap_points(&vertices[0], &vertices[1]);
+
+    double slope1 = (double)(vertices[1].x - vertices[0].x) / (vertices[1].y - vertices[0].y);
+    double slope2 = (double)(vertices[2].x - vertices[0].x) / (vertices[2].y - vertices[0].y);
+    double slope3 = (double)(vertices[2].x - vertices[1].x) / (vertices[2].y - vertices[1].y);
+
+    double x1 = vertices[0].x;
+    double x2 = vertices[0].x;
+
+    for (int y = vertices[0].y; y <= vertices[1].y; ++y) {
+        int minx = (int)ceil(x1);
+        int maxx = (int)floor(x2);
+
+        double delta1 = (y - vertices[0].y) / (double)(vertices[1].y - vertices[0].y);
+        double delta2 = (y - vertices[0].y) / (double)(vertices[2].y - vertices[0].y);
+
+        uint32_t color1 = rgb(
+            (uint8_t)(((1 - delta1) * ((hex_color1 >> 16) & 0xFF)) + (delta1 * ((hex_color2 >> 16) & 0xFF))),
+            (uint8_t)(((1 - delta1) * ((hex_color1 >> 8) & 0xFF)) + (delta1 * ((hex_color2 >> 8) & 0xFF))),
+            (uint8_t)(((1 - delta1) * (hex_color1 & 0xFF)) + (delta1 * (hex_color2 & 0xFF)))
+        );
+
+        uint32_t color2 = rgb(
+            (uint8_t)(((1 - delta2) * ((hex_color1 >> 16) & 0xFF)) + (delta2 * ((hex_color3 >> 16) & 0xFF))),
+            (uint8_t)(((1 - delta2) * ((hex_color1 >> 8) & 0xFF)) + (delta2 * ((hex_color3 >> 8) & 0xFF))),
+            (uint8_t)(((1 - delta2) * (hex_color1 & 0xFF)) + (delta2 * (hex_color3 & 0xFF)))
+        );
+
+        for (int x = minx; x <= maxx; ++x) {
+            double t = (x - x1) / (x2 - x1);
+            uint32_t final_color = rgb(
+                (uint8_t)(((1 - t) * ((color1 >> 16) & 0xFF)) + (t * ((color2 >> 16) & 0xFF))),
+                (uint8_t)(((1 - t) * ((color1 >> 8) & 0xFF)) + (t * ((color2 >> 8) & 0xFF))),
+                (uint8_t)(((1 - t) * (color1 & 0xFF)) + (t * (color2 & 0xFF)))
+            );
+
+            put_pixel(x, y, final_color);
+        }
+
+        x1 += slope1;
+        x2 += slope2;
+    }
+
+    x1 = vertices[1].x;
+    for (int y = vertices[1].y + 1; y <= vertices[2].y; ++y) {
+        int minx = (int)ceil(x1);
+        int maxx = (int)floor(x2);
+
+        double delta2 = (y - vertices[1].y) / (double)(vertices[2].y - vertices[1].y);
+
+        uint32_t color1 = rgb(
+            (uint8_t)(((1 - delta2) * ((hex_color2 >> 16) & 0xFF)) + (delta2 * ((hex_color3 >> 16) & 0xFF))),
+            (uint8_t)(((1 - delta2) * ((hex_color2 >> 8) & 0xFF)) + (delta2 * ((hex_color3 >> 8) & 0xFF))),
+            (uint8_t)(((1 - delta2) * (hex_color2 & 0xFF)) + (delta2 * (hex_color3 & 0xFF)))
+        );
+
+        for (int x = minx; x <= maxx; ++x) {
+            double t = (x - x1) / (x2 - x1);
+            uint32_t final_color = rgb(
+                (uint8_t)(((1 - t) * ((color1 >> 16) & 0xFF)) + (t * ((hex_color3 >> 16) & 0xFF))),
+                (uint8_t)(((1 - t) * ((color1 >> 8) & 0xFF)) + (t * ((hex_color3 >> 8) & 0xFF))),
+                (uint8_t)(((1 - t) * (color1 & 0xFF)) + (t * (hex_color3 & 0xFF)))
+            );
+
+            put_pixel(x, y, final_color);
+        }
+
+        x1 += slope3;
+        x2 += slope2;
+    }
 }
