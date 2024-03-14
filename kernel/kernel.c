@@ -76,9 +76,9 @@ void kernel_entry(struct multiboot_info *mb) {
 
     Point points[] = {
         {100, 100},
-        {500, 100},
-        {500, 500},
-        {100, 500}
+        {200, 100},
+        {200, 200},
+        {100, 200}
     };
 
     int num_points = sizeof(points) / sizeof(points[0]);
