@@ -1,5 +1,10 @@
 #include "math.h"
 
+int abs(int x)
+{
+    return x < 0 ? -x : x;
+}
+
 double sqrt(double x) {
     if (x < 0) return 0; // Undefined for negative numbers
     double guess = x / 2;

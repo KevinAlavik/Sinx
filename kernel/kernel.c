@@ -1,17 +1,30 @@
+// Standard C libraries
 #include <stdint.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <printf.h>
 #include <string.h>
+
+// Kernel headers
 #include <kif.h>
 #include <multiboot/multiboot.h>
+
+// Processor-specific headers
 #include <i383/cpu/cpu.h>
 #include <i383/gdt/gdt.h>
+
+// Display drivers
 #include <drivers/display/framebuffer.h>
 #include <drivers/display/vga.h>
+#include <drivers/display/graphics.h>
 #include <drivers/display/nighterm/nighterm.h>
+
+// Serial communication driver
 #include <drivers/serial/serial.h>
+
+// Utility headers
 #include <utils/logger.h>
+
 
 extern int entry(void);
 struct multiboot_info *mb_info;
@@ -59,8 +72,13 @@ void kernel_entry(struct multiboot_info *mb) {
     int status = entry();
     printf("%d\n", status);
 
-    uint32_t color1 = rgb(255, 0, 0);
-    uint32_t color2 = rgb(0, 255, 0);
-    uint32_t color3 = rgb(0, 0, 255);
-    draw_triangle_with_gradient(color1, color2, color3);
+    Point points[] = {
+        {100, 100},
+        {200, 100},
+        {200, 200},
+        {100, 200}
+    };
+
+    int num_points = sizeof(points) / sizeof(points[0]);
+    draw_figure(points, num_points);
 }

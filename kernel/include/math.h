@@ -3,6 +3,7 @@
 
 #define M_PI 3.14159265358979323846
 
+int abs(int x);
 double sqrt(double x);
 double pow(double x, double y);
 double sin(double x);

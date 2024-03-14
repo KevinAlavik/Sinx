@@ -20,6 +20,5 @@ uint32_t rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 void text_mode_warning();
 
-void draw_triangle_with_gradient(uint32_t hex_color1, uint32_t hex_color2, uint32_t hex_color3);
 
 #endif // __VGA_H__
